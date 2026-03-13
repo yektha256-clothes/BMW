@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Potta! 🎂</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            /* നിങ്ങളുടെ ഫോട്ടോ ഇവിടെ ചേർക്കുക */
+            background-image: url('our-photo-3.jpg'); 
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ഫോട്ടോയ്ക്ക് മുകളിൽ ലൈറ്റ് കളർ നൽകാൻ */
+        .overlay {
+            background: rgba(255, 255, 255, 0.9); /* Page 3-ലെ പോലെ ലൈറ്റ് കളർ */
+            width: 88%;
+            max-width: 550px;
+            padding: 40px 25px;
+            border-radius: 25px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.2);
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            margin: 40px 20px;
+        }
+
+        h1 {
+            color: #ff4d6d;
+            font-size: 2rem;
+            margin-bottom: 25px;
+        }
+
+        .birthday-text {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: #333;
+            text-align: left;
+            white-space: pre-line;
+            margin-bottom: 30px;
+        }
+
+        .love-letter-part {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid #ffb3c1;
+            font-style: italic;
+            color: #d63384;
+            font-size: 1.15rem;
+            font-weight: bold;
+        }
+
+        /* ഹൃദയങ്ങൾ വീഴുന്ന ആനിമേഷൻ */
+        .confetti {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="confetti" id="confetti"></div>
+
+<div class="overlay">
+    <h1>Happy Birthday Potta! 🎉</h1>
+    
+    <div class="birthday-text">
+        Edo actually nk nine bayankara idhttado nammale idayil ippol orupad preshnangal ndenkilum korach time kazhinjal automatically adh ello ok aavum adhinte main rsn ninak njnm nk niyum ethratholam important aanennulladhaaan. 
+
+        Karyam nthokkeyanenkilum nammal randalum nalla mach aanello and njn ninak gift thanna timil nammal kurach serious aaynu bce nammal appol samsarikknna subject anganathedhaaynu actually ello face cheydhum fight cheydhum ivde vare orumich nammal ethiyille eni angott nammak nammale ella prblmsum mattaadoo.
+
+        Njan parayan vanna karyam nthaann vecha njn angane mind ello kayynn poyi nikknna time ni aa gift open cheydhappo ninte aa happness kandappo pettann cool aayi papaya manassilayadh nte hapness mind ok aavnnadh ello ninteel aanenn adh kittan vendiyan means ni happy aavnnadh kanan vendiyaan kurach task edthttanelm njn idh ndakkiyadh ni nk athrakm importand aanedo potta.
+
+        Adh nk manassilayadh njan nink vendi ooro gift set aakkumboyum kittiya aa oru feel nd adh kittikkaynj ni adhello kand ninte sandhosham koode kandappo set aayi pinne nink idhello tharan njn thane alle llu adhonda nink vendi inganthe oroonn cheyyan thonniyadh potta ni nk perfect mach aanedo ippo ni full happy aanenn vijarikknn ennum idhpole hpy aayi nikk.
+
+        <div class="love-letter-part">
+            I lwwwwwwwwwwwwwwwwwww pottaaaaaaa ❤️
+            <br>
+            <span style="color: #ff4d6d; font-size: 1.3rem;">Stay Mine Forever!</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    function createConfetti() {
+        const container = document.getElementById('confetti');
+        const emojis = ["❤️", "💖", "✨", "🌸"];
+        for (let i = 0; i < 50; i++) {
+            const el = document.createElement('div');
+            el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+            el.style.position = 'absolute';
+            el.style.left = Math.random() * 100 + 'vw';
+            el.style.animation = `fall ${Math.random() * 3 + 2}s linear infinite`;
+            el.style.fontSize = Math.random() * 20 + 15 + 'px';
+            el.style.top = "-5vh";
+            container.appendChild(el);
+        }
+    }
+    createConfetti();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Vibe ❤️</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('download.jpg'); /* നിങ്ങളുടെ ഇമേജ് ഫയൽ */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .content-card {
+            background: rgba(255, 255, 255, 0.88); /* അക്ഷരങ്ങൾ തെളിയാൻ വേണ്ടിയുള്ള ലെയർ */
+            width: 85%;
+            max-width: 450px;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            color: #444;
+            line-height: 1.6;
+            margin: 20px;
+            animation: fadeIn 1.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .letter-text {
+            font-size: 1rem;
+            text-align: left;
+            margin-bottom: 20px;
+            white-space: pre-line;
+            color: #333;
+        }
+
+        .highlight {
+            color: #ff4d6d;
+            font-weight: bold;
+        }
+
+        .list-items {
+            list-style: none;
+            padding: 0;
+            margin: 15px 0;
+        }
+
+        .list-items li {
+            margin-bottom: 8px;
+            padding-left: 25px;
+            position: relative;
+            font-weight: 500;
+        }
+
+        .list-items li::before {
+            content: "✨";
+            position: absolute;
+            left: 0;
+        }
+
+        .question-section {
+            background: #fff5f7;
+            padding: 18px;
+            border-radius: 15px;
+            border: 1.5px dashed #ff4d6d;
+            margin-top: 25px;
+        }
+
+        .hint {
+            font-size: 0.85rem;
+            color: #555;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        input {
+            width: 90%;
+            padding: 12px;
+            border: 2px solid #ffb3c1;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #ff4d6d;
+            box-shadow: 0 0 8px rgba(255, 77, 109, 0.2);
+        }
+
+        button {
+            margin-top: 15px;
+            background: #ff4d6d;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        #error {
+            color: #e63946;
+            font-size: 0.8rem;
+            display: none;
+            margin-top: 8px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="content-card">
+    <div class="letter-text">
+        Ithu vaayikkumbol nee enthaayaalum onnu chindikkum. "Ivanu ithu enthu patti?" ennu nee ippo chinthikkunnundavum. 
+
+        Pakshe satyam parayaallo, chilappol ee pottatharangalum, nammude ee thallukalum okke illayirunnuvenkil ente jeevitham oru <span class="highlight">architect illatha site pole aayene.</span>
+
+        Ninne pole oru kuthirane kittiyadh ente bhagyam aanennaanu njaan ippo karuthunnath. Kaaranam:
+
+        <ul class="list-items">
+            <li>Nammude logic illatha samsaarangal.</li>
+            <li>Ninte aa chiriyum, pinne idakkidakkulla aa mandatharangalum.</li>
+            <li>Ellaathinum appuram, enne sahikkunnu enna ninte aa "valiya manassu".</li>
+        </ul>
+
+        Pakshe sariyaayittu paranjal, ee lokathil vere aaru vannaalum ninne pole enne santhosharippikkaan kazhiyilla. Ninte mssg illatha oru divasam polum ippo enikku chinthikkaan vayya. Athukondu thanneyaanu ninne njaan snehichu poyath. 
+
+        Ini enthu vannalum, namukku ee oru vibe pidich munnottu pokaam . <span class="highlight">Insha Allah ❤️</span>
+    </div>
+
+    <div class="question-section">
+        <div class="hint">
+            <strong>Hint:</strong> "Nammal orumich ullappol adhikavum nammude koode undayirunnu. Red color aan. Nammal avale vilikkunna name..."
+        </div>
+        <input type="text" id="answerInput" placeholder="അവളുടെ പേര് ഇവിടെ എഴുതൂ...">
+        <p id="error">തെറ്റാണ്! ആ പേര് ഒന്നുകൂടി ആലോചിക്കൂ... 😉</p>
+        <button onclick="checkAnswer()">Next Page ➡️</button>
+    </div>
+</div>
+
+<script>
+    function checkAnswer() {
+        const ans = document.getElementById('answerInput').value.trim().toLowerCase();
+        // Answer is: shandhamma
+        if (ans === "shandhamma") {
+            window.location.href = "page3.html"; 
+        } else {
+            document.getElementById('error').style.display = 'block';
+            document.getElementById('answerInput').style.borderColor = '#e63946';
+            
+            // ചെറിയൊരു വൈബ്രേഷൻ ഇഫക്റ്റ്
+            const input = document.getElementById('answerInput');
+            input.style.transform = "translateX(10px)";
+            setTimeout(() => input.style.transform = "translateX(-10px)", 50);
+            setTimeout(() => input.style.transform = "translateX(0)", 100);
+        }
+    }
+</script>
+
+</body>
+</html>

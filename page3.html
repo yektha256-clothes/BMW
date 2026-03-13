@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stay Mine ❤️</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            /* നിങ്ങളുടെ ഫോട്ടോ ഇവിടെ ചേർക്കുക */
+            background-image: url('our-photo-2.jpg'); 
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            font-family: 'Georgia', serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* ഫോട്ടോയ്ക്ക് മുകളിൽ വരികൾ വ്യക്തമാക്കാൻ ഒരു ലെയർ */
+        .overlay {
+            background: rgba(255, 255, 255, 0.85); 
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            text-align: center;
+            margin: 20px;
+        }
+
+        .letter-content {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #2c3e50;
+            text-align: left;
+            font-style: italic;
+        }
+
+        .closing {
+            margin-top: 15px;
+            font-weight: bold;
+            color: #d63384;
+        }
+
+        .date-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+        }
+
+        .hint-text {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        /* Date selection styling */
+        .date-selectors {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        select {
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ffb3c1;
+            background: white;
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        .unlock-btn {
+            background: #ff4d6d;
+            color: white;
+            border: none;
+            padding: 12px 35px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        #error-msg {
+            color: #e63946;
+            font-size: 0.85rem;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="overlay">
+    <div class="letter-content">
+        Hey Pottan,<br><br>
+        I know what you’re thinking—"Why on earth is he writing me a letter?" Honestly, I’m asking myself the same thing. But since I’ve already started, you might as well read the whole thing (no skipping!).<br><br>
+        Life with you is basically a non-stop comedy show, and I’m pretty sure I’m your biggest fan. Whether it's your weird logic, the way you laugh at your own jokes, or just those classic "Pottan" moments that only we understand—I wouldn't trade any of it for anything. You're the only person who can make me laugh and drive me crazy at the exact same time.<br><br>
+        But jokes aside, you’re actually the best thing that’s happened to me. Even when you’re being a total goofball, you’re my goofball. Thanks for keeping up with me and for making everything feel a lot less boring.<br><br>
+        I’m not great at the mushy stuff, so I’ll keep it simple: You’re stuck with me, and I’m pretty happy about that.<br><br>
+        Stay weird, stay "Pottan," and stay mine. 
+        <div class="closing">I love you kunjappuuuu ❤️</div>
+    </div>
+
+    <div class="date-section">
+        <p class="hint-text"><strong>Hint:</strong> Ninak eettevum important aaya personinte date of birth.</p>
+        
+        <div class="date-selectors">
+            <select id="day">
+                <option value="">Day</option>
+                <script>
+                    for(let i=1; i<=31; i++) document.write(`<option value="${i<10?'0'+i:i}">${i}</option>`);
+                </script>
+            </select>
+
+            <select id="month">
+                <option value="">Month</option>
+                <option value="01">Jan</option><option value="02">Feb</option><option value="03">Mar</option>
+                <option value="04">Apr</option><option value="05">May</option><option value="06">Jun</option>
+                <option value="07">Jul</option><option value="08">Aug</option><option value="09">Sep</option>
+                <option value="10">Oct</option><option value="11">Nov</option><option value="12">Dec</option>
+            </select>
+
+            <select id="year">
+                <option value="">Year</option>
+                <script>
+                    for(let i=2010; i>=1990; i--) document.write(`<option value="${i}">${i}</option>`);
+                </script>
+            </select>
+        </div>
+
+        <button class="unlock-btn" onclick="checkDate()">Open Next 🎁</button>
+        <p id="error-msg">Incorrect date. Think again!</p>
+    </div>
+</div>
+
+<script>
+    function checkDate() {
+        const d = document.getElementById('day').value;
+        const m = document.getElementById('month').value;
+        const y = document.getElementById('year').value;
+        
+        const selectedDate = `${d}/${m}/${y}`;
+        const correctDate = "21/02/2000";
+
+        if (selectedDate === correctDate) {
+            window.location.href = "page4.html";
+        } else {
+            document.getElementById('error-msg').style.display = 'block';
+        }
+    }
+</script>
+
+</body>
+</html>

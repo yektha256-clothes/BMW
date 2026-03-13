@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Birthday Surprise - Puzzle</title>
+    <style>
+        :root {
+            --primary-color: #ff4d6d;
+            --bg-color: #fff0f3;
+            --board-bg: #ffe5ec;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            touch-action: none;
+            overflow: hidden;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            text-align: center;
+            font-size: 1.2rem;
+            margin: 25px 15px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+        }
+
+        /* പസിൽ ബോർഡ് */
+        #main-board {
+            width: 300px;
+            height: 300px;
+            background-color: var(--board-bg);
+            border: 2px solid #ffb3c1;
+            position: relative;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(255, 77, 109, 0.2);
+        }
+
+        /* കഷണങ്ങൾ ഇരിക്കുന്ന ട്രേ */
+        #piece-tray {
+            width: 95%;
+            min-height: 120px;
+            margin-top: 30px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            align-items: center;
+            border: 2px dashed var(--primary-color);
+            box-sizing: border-box;
+        }
+
+        .puzzle-piece {
+            width: 65px;
+            height: 65px;
+            background-image: url('our-photo.jpg');
+            background-size: 300px 300px;
+            border: 2px solid white;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            touch-action: none;
+            cursor: move;
+            z-index: 10;
+        }
+
+        /* വലിക്കുമ്പോൾ വലുതാകാൻ */
+        .dragging {
+            width: 100px !important;
+            height: 100px !important;
+            z-index: 1000;
+            transform: scale(1.05);
+            border: 1px solid rgba(255,255,255,0.8);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+
+        /* ശരിയായ സ്ഥലത്ത് എത്തിയ കഷണം (വരകൾ ഒഴിവാക്കാൻ) */
+        .solved-piece {
+            width: 100px !important;
+            height: 100px !important;
+            border: none !important;
+            position: absolute !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+            z-index: 1 !important;
+        }
+
+        #next-btn {
+            display: none;
+            margin: 25px;
+            padding: 15px 45px;
+            background: linear-gradient(45deg, #ff4d6d, #ff758c);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <h2>ഈ പസിൽ ഒന്ന് പൂർത്തിയാക്കാമോ? ❤️</h2>
+
+    <div id="main-board"></div>
+
+    <div id="piece-tray"></div>
+
+    <button id="next-btn" onclick="location.href='page2.html'">സമ്മാനം നേടൂ! ➡️</button>
+
+    <script>
+        const board = document.getElementById('main-board');
+        const tray = document.getElementById('piece-tray');
+        const nextBtn = document.getElementById('next-btn');
+        const rows = 3, cols = 3;
+        let solvedCount = 0;
+
+        // കഷണങ്ങളുടെ പൊസിഷൻ തയ്യാറാക്കുന്നു
+        let positions = [];
+        for (let r = 0; r < rows; r++) {
+            for (let c = 0; c < cols; c++) {
+                positions.push({r, c});
+            }
+        }
+        
+        // കഷണങ്ങൾ മിക്സ് ചെയ്യുന്നു
+        positions.sort(() => Math.random() - 0.5);
+
+        positions.forEach(pos => {
+            const piece = document.createElement('div');
+            piece.className = 'puzzle-piece';
+            
+            const correctX = pos.c * 100;
+            const correctY = pos.r * 100;
+            
+            piece.style.backgroundPosition = `-${correctX}px -${correctY}px`;
+            piece.dataset.correctX = correctX;
+            piece.dataset.correctY = correctY;
+
+            makeDraggable(piece);
+            tray.appendChild(piece);
+        });
+
+        function makeDraggable(el) {
+            let isDragging = false;
+            let isSolved = false;
+            let startOffset = { x: 0, y: 0 };
+
+            const onStart = (e) => {
+                if (isSolved) return;
+                isDragging = true;
+                el.classList.add('dragging');
+                
+                const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+                const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+                
+                const rect = el.getBoundingClientRect();
+                startOffset.x = clientX - rect.left;
+                startOffset.y = clientY - rect.top;
+                
+                el.style.position = 'fixed';
+                moveAt(clientX, clientY);
+            };
+
+            const moveAt = (clientX, clientY) => {
+                el.style.left = clientX - startOffset.x + 'px';
+                el.style.top = clientY - startOffset.y + 'px';
+            };
+
+            const onMove = (e) => {
+                if (!isDragging) return;
+                e.preventDefault();
+                const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+                const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+                moveAt(clientX, clientY);
+            };
+
+            const onEnd = () => {
+                if (!isDragging) return;
+                isDragging = false;
+                el.classList.remove('dragging');
+
+                const boardRect = board.getBoundingClientRect();
+                const pieceRect = el.getBoundingClientRect();
+
+                const relativeX = pieceRect.left - boardRect.left;
+                const relativeY = pieceRect.top - boardRect.top;
+
+                const targetX = parseInt(el.dataset.correctX);
+                const targetY = parseInt(el.dataset.correctY);
+
+                // കൃത്യമായ സ്ഥാനത്ത് എത്തുമ്പോൾ (Snap logic)
+                // ഗ്യാപ്പ് ഒഴിവാക്കാൻ കുറച്ചുകൂടി പ്രിസൈസ് ആക്കിയിട്ടുണ്ട്
+                if (Math.abs(relativeX - targetX) < 35 && Math.abs(relativeY - targetY) < 35) {
+                    el.classList.add('solved-piece');
+                    el.style.left = targetX + 'px';
+                    el.style.top = targetY + 'px';
+                    board.appendChild(el);
+                    isSolved = true;
+                    solvedCount++;
+                    
+                    if (solvedCount === 9) {
+                        nextBtn.style.display = 'block';
+                        document.querySelector('h2').innerText = "അടിപൊളി! നീ ഇത് ജയിച്ചു.. ❤️";
+                    }
+                } else {
+                    // തിരിച്ച് ട്രേയിലേക്ക്
+                    el.style.position = 'relative';
+                    el.style.left = '0';
+                    el.style.top = '0';
+                    tray.appendChild(el);
+                }
+            };
+
+            el.addEventListener('mousedown', onStart);
+            el.addEventListener('touchstart', onStart, {passive: false});
+            window.addEventListener('mousemove', onMove);
+            window.addEventListener('touchmove', onMove, { passive: false });
+            window.addEventListener('mouseup', onEnd);
+            window.addEventListener('touchend', onEnd);
+        }
+    </script>
+</body>
+</html>
