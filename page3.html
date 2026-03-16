@@ -5,70 +5,97 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stay Mine ❤️</title>
     <style>
-        body {
+        body, html {
             margin: 0;
             padding: 0;
-            /* നിങ്ങളുടെ ഫോട്ടോ ഇവിടെ ചേർക്കുക */
-            background-image: url('our-photo-2.jpg'); 
+            height: 100%;
+            font-family: 'Poppins', 'Georgia', serif;
+            /* ബാക്ക്ഗ്രൗണ്ട് ഇമേജും ഡാർക്ക് ലെയറും */
+            background: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url('download.jpg'); 
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
-            font-family: 'Georgia', serif;
             display: flex;
             justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* ഫോട്ടോയ്ക്ക് മുകളിൽ വരികൾ വ്യക്തമാക്കാൻ ഒരു ലെയർ */
+        .main-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
         .overlay {
-            background: rgba(255, 255, 255, 0.85); 
-            width: 90%;
+            background: rgba(255, 255, 255, 0.7); 
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            width: 100%;
             max-width: 500px;
             padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            text-align: center;
-            margin: 20px;
+            border-radius: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .letter-content {
-            font-size: 1.1rem;
+            font-size: 1rem;
             line-height: 1.7;
-            color: #2c3e50;
+            color: #000; /* കറുപ്പ് നിറം അക്ഷരങ്ങൾക്ക് കൂടുതൽ വ്യക്തത നൽകും */
             text-align: left;
             font-style: italic;
+            font-weight: 600; /* കട്ടി കൂട്ടി */
         }
 
         .closing {
-            margin-top: 15px;
+            margin-top: 20px;
             font-weight: bold;
             color: #d63384;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        /* ഫോട്ടോ ഫ്രെയിം - സൈസ് കുറച്ചു, മുഖങ്ങൾ കാണാൻ അഡ്ജസ്റ്റ് ചെയ്തു */
+        .photo-frame {
+            width: 85%; 
+            height: 260px; 
+            margin: 25px auto; 
+            border-radius: 15px;
+            border: 4px solid white;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            background-image: url('our-photo-2.jpg'); 
+            background-size: cover;
+            /* തലകൾ വ്യക്തമാകാൻ പൊസിഷൻ അല്പം താഴേക്ക് മാറ്റി */
+            background-position: center 15%; 
+            background-repeat: no-repeat;
         }
 
         .date-section {
-            margin-top: 30px;
+            margin-top: 25px;
             padding-top: 20px;
-            border-top: 1px solid #ddd;
+            border-top: 1px solid rgba(0, 0, 0, 0.15);
+            text-align: center;
         }
 
         .hint-text {
-            font-size: 0.85rem;
-            color: #666;
+            font-size: 0.9rem;
+            color: #222;
             margin-bottom: 15px;
+            font-weight: bold;
         }
 
-        /* Date selection styling */
         .date-selectors {
             display: flex;
-            gap: 10px;
+            gap: 6px;
             justify-content: center;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         select {
             padding: 10px;
-            border-radius: 8px;
+            border-radius: 10px;
             border: 1px solid #ffb3c1;
             background: white;
             font-size: 0.9rem;
@@ -80,63 +107,69 @@
             color: white;
             border: none;
             padding: 12px 35px;
-            border-radius: 25px;
+            border-radius: 30px;
             font-size: 1rem;
             font-weight: bold;
             cursor: pointer;
-            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
         }
 
         #error-msg {
             color: #e63946;
-            font-size: 0.85rem;
-            margin-top: 10px;
+            font-size: 0.9rem;
+            margin-top: 15px;
             display: none;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
 
-<div class="overlay">
-    <div class="letter-content">
-        Hey Pottan,<br><br>
-        I know what you’re thinking—"Why on earth is he writing me a letter?" Honestly, I’m asking myself the same thing. But since I’ve already started, you might as well read the whole thing (no skipping!).<br><br>
-        Life with you is basically a non-stop comedy show, and I’m pretty sure I’m your biggest fan. Whether it's your weird logic, the way you laugh at your own jokes, or just those classic "Pottan" moments that only we understand—I wouldn't trade any of it for anything. You're the only person who can make me laugh and drive me crazy at the exact same time.<br><br>
-        But jokes aside, you’re actually the best thing that’s happened to me. Even when you’re being a total goofball, you’re my goofball. Thanks for keeping up with me and for making everything feel a lot less boring.<br><br>
-        I’m not great at the mushy stuff, so I’ll keep it simple: You’re stuck with me, and I’m pretty happy about that.<br><br>
-        Stay weird, stay "Pottan," and stay mine. 
-        <div class="closing">I love you kunjappuuuu ❤️</div>
-    </div>
-
-    <div class="date-section">
-        <p class="hint-text"><strong>Hint:</strong> Ninak eettevum important aaya personinte date of birth.</p>
-        
-        <div class="date-selectors">
-            <select id="day">
-                <option value="">Day</option>
-                <script>
-                    for(let i=1; i<=31; i++) document.write(`<option value="${i<10?'0'+i:i}">${i}</option>`);
-                </script>
-            </select>
-
-            <select id="month">
-                <option value="">Month</option>
-                <option value="01">Jan</option><option value="02">Feb</option><option value="03">Mar</option>
-                <option value="04">Apr</option><option value="05">May</option><option value="06">Jun</option>
-                <option value="07">Jul</option><option value="08">Aug</option><option value="09">Sep</option>
-                <option value="10">Oct</option><option value="11">Nov</option><option value="12">Dec</option>
-            </select>
-
-            <select id="year">
-                <option value="">Year</option>
-                <script>
-                    for(let i=2010; i>=1990; i--) document.write(`<option value="${i}">${i}</option>`);
-                </script>
-            </select>
+<div class="main-container">
+    <div class="overlay">
+        <div class="letter-content">
+            Hey Pottan,<br><br>
+            I know what you’re thinking—"Why on earth is he writing me a letter?" Honestly, I’m asking myself the same thing. But since I’ve already started, you might as well read the whole thing (no skipping!).<br><br>
+            Life with you is basically a non-stop comedy show, and I’m pretty sure I’m your biggest fan. Whether it's your weird logic, the way you laugh at your own jokes, or just those classic "Pottan" moments that only we understand—I wouldn't trade any of it for anything. You're the only person who can make me laugh and drive me crazy at the exact same time.<br><br>
+            But jokes aside, you’re actually the best thing that’s happened to me. Even when you’re being a total goofball, you’re my goofball. Thanks for keeping up with me and for making everything feel a lot less boring.<br><br>
+            I’m not great at the mushy stuff, so I’ll keep it simple: You’re stuck with me, and I’m pretty happy about that.<br><br>
+            Stay weird, stay "Pottan," and stay mine. 
+            
+            <div class="closing">I love you kunjappuuuu ❤️</div>
         </div>
 
-        <button class="unlock-btn" onclick="checkDate()">Open Next 🎁</button>
-        <p id="error-msg">Incorrect date. Think again!</p>
+        <div class="photo-frame"></div>
+
+        <div class="date-section">
+            <p class="hint-text">Hint: Ninak eettevum important aaya personinte date of birth.</p>
+            
+            <div class="date-selectors">
+                <select id="day">
+                    <option value="">Day</option>
+                    <script>
+                        for(let i=1; i<=31; i++) document.write(`<option value="${i<10?'0'+i:i}">${i}</option>`);
+                    </script>
+                </select>
+
+                <select id="month">
+                    <option value="">Month</option>
+                    <option value="01">Jan</option><option value="02">Feb</option><option value="03">Mar</option>
+                    <option value="04">Apr</option><option value="05">May</option><option value="06">Jun</option>
+                    <option value="07">Jul</option><option value="08">Aug</option><option value="09">Sep</option>
+                    <option value="10">Oct</option><option value="11">Nov</option><option value="12">Dec</option>
+                </select>
+
+                <select id="year">
+                    <option value="">Year</option>
+                    <script>
+                        for(let i=2010; i>=1990; i--) document.write(`<option value="${i}">${i}</option>`);
+                    </script>
+                </select>
+            </div>
+
+            <button class="unlock-btn" onclick="checkDate()">Open Next 🎁</button>
+            <p id="error-msg">Incorrect date. Think again!</p>
+        </div>
     </div>
 </div>
 
