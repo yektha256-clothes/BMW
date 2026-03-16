@@ -2,128 +2,166 @@
 <html lang="ml">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Happy Birthday Potta! 🎂</title>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            /* ബാക്ക്ഗ്രൗണ്ട് ഇമേജ് സെറ്റിംഗ്സ് */
-            background-image: url('our-photo-3.jpg'); 
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed; /* ഇമേജ് മൂവ് ആവില്ല */
-            background-repeat: no-repeat;
-            font-family: 'Poppins', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
-            overflow-x: hidden;
+        * {
+            box-sizing: border-box;
         }
 
-        /* ബ്ലർ ആയ മുകളിലെ പേജ് (Glassmorphism) */
-        .overlay {
-            background: rgba(255, 255, 255, 0.25); /* സുതാര്യമായ വെള്ള നിറം */
-            backdrop-filter: blur(15px); /* പേജ് ബ്ലർ ആക്കാൻ ഇതാണ് പ്രധാനം */
-            -webkit-backdrop-filter: blur(15px); /* Safari സപ്പോർട്ടിന് */
-            
-            width: 85%; /* മൊബൈൽ സ്ക്രീനിന് അനുയോജ്യമായ വീതി */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden; 
+        }
+
+        /* 1. മെയിൻ ബാക്ക്ഗ്രൗണ്ട് (നിങ്ങൾ തന്ന പുതിയ ഡിസൈൻ) */
+        .bg-fixed {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            /* ഫയൽ പേര് ഉറപ്പുവരുത്തുക */
+            background-image: url('download.jpg'); 
+            background-size: 100% 100%; /* മൊബൈൽ സ്ക്രീനിൽ ഫുൾ ആയി ഫിറ്റ് ആകാൻ */
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -2;
+        }
+
+        /* 2. സ്ക്രോൾ ചെയ്യാവുന്ന ഭാഗം */
+        .scroll-content {
+            width: 100%;
+            height: 100vh;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        /* 3. ഗ്ലാസ് പേജ് */
+        .glass-box {
+            background: rgba(255, 255, 255, 0.45); 
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            width: 100%;
             max-width: 450px;
-            padding: 30px 20px;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.3); /* ഗ്ലാസ് ലുക്കിന് ഒരു ബോർഡർ */
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-            
-            text-align: center;
+            padding: 30px 20px 80px; /* അടിയിൽ ഫോട്ടോയ്ക്ക് സ്ഥലം നൽകി */
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             position: relative;
-            z-index: 1;
-            margin: 40px 15px; /* മുകളിലും താഴെയും സ്പേസ് */
+            margin-bottom: 50px;
         }
 
         h1 {
-            color: #ffffff; /* ബ്ലർ പേജിൽ വെള്ളയോ പിങ്കോ കൂടുതൽ ഭംഗി നൽകും */
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            color: #ff4d6d;
             font-size: 1.6rem;
+            text-align: center;
             margin-bottom: 20px;
-        }
-
-        .birthday-text {
-            font-size: 0.95rem; /* മൊബൈലിൽ വായിക്കാൻ സുഖമുള്ള സൈസ് */
-            line-height: 1.7;
-            color: #ffffff; /* അക്ഷരങ്ങൾ വെള്ളയാക്കിയാൽ ഗ്ലാസ് ലുക്കിൽ നന്നായി തെളിയും */
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-            text-align: left;
-            white-space: pre-line;
-            margin-bottom: 20px;
-        }
-
-        .love-letter-part {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.4);
-            font-style: italic;
-            color: #ffdae0;
-            font-size: 1.1rem;
             font-weight: bold;
         }
 
-        /* ബാക്ക്ഗ്രൗണ്ടിൽ ഹൃദയങ്ങൾ വീഴാൻ */
-        .confetti {
+        .birthday-text {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: #1a1a1a;
+            font-weight: 600; /* കട്ടി കൂട്ടി */
+            white-space: pre-line;
+            text-align: left;
+        }
+
+        /* 4. പഴയ ഫോട്ടോ - അടിയിൽ വലത് വശത്ത് */
+        .mini-photo {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            /* പഴയ ഫോട്ടോയുടെ പേര് ഇവിടെ നൽകുക */
+            background-image: url('our-photo-3.jpg'); 
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .love-letter-part {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.5);
+            font-style: italic;
+            color: #d63384;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        /* Confetti */
+        .confetti-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 0;
-        }
-
-        @keyframes fall {
-            0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+            z-index: -1;
         }
     </style>
 </head>
 <body>
 
-<div class="confetti" id="confetti"></div>
+<div class="bg-fixed"></div>
+<div class="confetti-container" id="confetti"></div>
 
-<div class="overlay">
-    <h1>Happy Birthday Potta! 🎉</h1>
-    
-    <div class="birthday-text">
-        Edo actually nk nine bayankara idhttado nammale idayil ippol orupad preshnangal ndenkilum korach time kazhinjal automatically adh ello ok aavum adhinte main rsn ninak njnm nk niyum ethratholam important aanennulladhaaan. 
+<div class="scroll-content">
+    <div class="glass-box">
+        <h1>Happy Birthday Potta! 🎉</h1>
+        
+        <div class="birthday-text">
+            Edo actually nk nine bayankara idhttado nammale idayil ippol orupad preshnangal ndenkilum korach time kazhinjal automatically adh ello ok aavum adhinte main rsn ninak njnm nk niyum ethratholam important aanennulladhaaan. 
 
-        Karyam nthokkeyanenkilum nammal randalum nalla mach aanello and njn ninak gift thanna timil nammal kurach serious aaynu bce nammal appol samsarikknna subject anganathedhaaynu actually ello face cheydhum fight cheydhum ivde vare orumich nammal ethiyille eni angott nammak nammale ella prblmsum mattaadoo.
+            Karyam nthokkeyanenkilum nammal randalum nalla mach aanello and njn ninak gift thanna timil nammal kurach serious aaynu bce nammal appol samsarikknna subject anganathedhaaynu actually ello face cheydhum fight cheydhum ivde vare orumich nammal ethiyille eni angott nammak nammale ella prblmsum mattaadoo.
 
-        Njan parayan vanna karyam nthaann vecha njn angane mind ello kayynn poyi nikknna time ni aa gift open cheydhappo ninte aa happness kandappo pettann cool aayi papaya manassilayadh nte hapness mind ok aavnnadh ello ninteel aanenn adh kittan vendiyan means ni happy aavnnadh kanan vendiyaan kurach task edthttanelm njn idh ndakkiyadh ni nk athrakm importand aanedo potta.
+            Njan parayan vanna karyam nthaann vecha njn angane mind ello kayynn poyi nikknna time ni aa gift open cheydhappo ninte aa happness kandappo pettann cool aayi papaya manassilayadh nte hapness mind ok aavnnadh ello ninteel aanenn adh kittan vendiyan means ni happy aavnnadh kanan vendiyaan kurach task edthttanelm njn idh ndakkiyadh ni nk athrakm importand aanedo potta.
 
-        Adh nk manassilayadh njan nink vendi ooro gift set aakkumboyum kittiya aa oru feel nd adh kittikkaynj ni adhello kand ninte sandhosham koode kandappo set aayi pinne nink idhello tharan njn thane alle llu adhonda nink vendi inganthe oroonn cheyyan thonniyadh potta ni nk perfect mach aanedo ippo ni full happy aanenn vijarikknn ennum idhpole hpy aayi nikk.
-
-        <div class="love-letter-part">
-            I lwwwwwwwwwwwwwwwwwww pottaaaaaaa ❤️
-            <br>
-            <span style="color: #ff4d6d; font-size: 1.2rem; text-shadow: none;">Stay Mine Forever!</span>
+            Adh nk manassilayadh njan nink vendi ooro gift set aakkumboyum kittiya aa oru feel nd adh kittikkaynj ni adhello kand ninte sandhosham koode kandappo set aayi pinne nink idhello tharan njn thane alle llu adhonda nink vendi inganthe oroonn cheyyan thonniyadh potta ni nk perfect mach aanedo ippo ni full happy aanenn vijarikknn ennum idhpole hpy aayi nikk.
+            
+            <div class="love-letter-part">
+                I lwwwwwwwwwwwwwwwwwww pottaaaaaaa ❤️
+                <br>
+                <span style="color: #ff4d6d; font-size: 1.2rem;">Stay Mine Forever!</span>
+            </div>
         </div>
+
+        <div class="mini-photo"></div>
     </div>
 </div>
 
 <script>
     function createConfetti() {
         const container = document.getElementById('confetti');
-        const emojis = ["❤️", "💖", "✨", "🌸"];
-        for (let i = 0; i < 35; i++) {
+        const emojis = ["❤️", "💖", "✨"];
+        for (let i = 0; i < 20; i++) {
             const el = document.createElement('div');
             el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
             el.style.position = 'absolute';
             el.style.left = Math.random() * 100 + 'vw';
-            el.style.animation = `fall ${Math.random() * 3 + 4}s linear infinite`;
-            el.style.fontSize = Math.random() * 15 + 10 + 'px';
             el.style.top = "-5vh";
+            el.style.fontSize = "20px";
+            el.style.animation = `fall ${Math.random() * 3 + 4}s linear infinite`;
             container.appendChild(el);
         }
     }
+    const style = document.createElement('style');
+    style.innerHTML = `@keyframes fall { 0% { transform: translateY(0) rotate(0); } 100% { transform: translateY(110vh) rotate(360deg); } }`;
+    document.head.appendChild(style);
     createConfetti();
 </script>
 
