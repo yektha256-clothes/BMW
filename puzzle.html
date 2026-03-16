@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Birthday Surprise - Seamless Puzzle</title>
+    <title>Birthday Surprise - Puzzle</title>
     <style>
         :root { --neon: #ff2e63; --dark: #0f172a; }
         
@@ -18,38 +18,27 @@
         #main-board {
             width: 300px; height: 300px; background: #1e293b; position: relative;
             border: 2px solid rgba(255,255,255,0.1);
-            overflow: hidden;
         }
 
-        /* ട്രേയിൽ മെസ്സേജ് കാണിക്കാൻ position relative ആക്കി */
         #piece-tray {
             width: 95%; min-height: 140px; margin-top: 25px; padding: 10px;
             background: rgba(255, 255, 255, 0.05); border-radius: 15px;
             display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center;
-            position: relative; 
+            position: relative; box-sizing: border-box;
         }
 
-        /* ഇതിലാണ് നിനക്ക് ഇഷ്ടമുള്ള വരികൾ എഴുതേണ്ടത് */
         #tray-message {
-            position: absolute;
-            width: 90%;
-            text-align: center;
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.9rem;
-            line-height: 1.4;
-            pointer-events: none; /* ഇതിൽ തൊടുമ്പോൾ ഡ്രാഗിംഗ് തടസ്സപ്പെടില്ല */
-            z-index: 1;
-            font-style: italic;
+            position: absolute; width: 90%; text-align: center;
+            color: rgba(255, 255, 255, 0.6); font-size: 0.9rem;
+            line-height: 1.4; pointer-events: none; z-index: 1; font-style: italic;
         }
 
         .puzzle-piece {
             width: 100px; height: 100px;
             background-image: url('our-photo.jpg');
             background-size: 300px 300px;
-            border: none;
-            box-sizing: border-box;
-            cursor: grab; touch-action: none; position: relative; 
-            z-index: 10; /* പീസുകൾ മെസ്സേജിന് മുകളിൽ വരാൻ */
+            border: none; cursor: grab; touch-action: none; 
+            position: relative; z-index: 10;
         }
 
         .dragging {
@@ -62,9 +51,7 @@
 
         .solved {
             position: absolute !important;
-            border: none !important;
             z-index: 1 !important;
-            margin: 0 !important;
         }
 
         #next-btn {
@@ -89,7 +76,7 @@
         </div>
     </div>
 
-    <button id="next-btn" onclick="location.href='page2.html'">സമ്മാനം കാണൂ! ➡️</button>
+    <button id="next-btn" onclick="location.href='page2.html'">ibde onn thott nokk! ➡️</button>
 
     <script>
         const board = document.getElementById('main-board');
@@ -98,8 +85,7 @@
         let solvedCount = 0;
 
         for (let i = 0; i < 9; i++) {
-            const r = Math.floor(i / 3);
-            const c = i % 3;
+            const r = Math.floor(i / 3), c = i % 3;
             const piece = document.createElement('div');
             piece.className = 'puzzle-piece';
             piece.style.backgroundPosition = `-${c * 100}px -${r * 100}px`;
@@ -129,18 +115,22 @@
 
             el.classList.add('dragging');
 
-            const move = (e) => {
-                const t = e.touches ? e.touches[0] : e;
+            const move = (me) => {
+                const t = me.touches ? me.touches[0] : me;
                 el.style.left = (t.clientX - offsetX) + 'px';
                 el.style.top = (t.clientY - offsetY) + 'px';
             };
 
-            const stop = (e) => {
+            const stop = (se) => {
+                // Remove listeners immediately
                 window.removeEventListener('mousemove', move);
                 window.removeEventListener('touchmove', move);
+                window.removeEventListener('mouseup', stop);
+                window.removeEventListener('touchend', stop);
+
                 el.classList.remove('dragging');
 
-                const t = e.changedTouches ? e.changedTouches[0] : e;
+                const t = se.type.includes('touch') ? se.changedTouches[0] : se;
                 const bRect = board.getBoundingClientRect();
                 
                 const dropX = t.clientX - bRect.left - offsetX;
@@ -149,24 +139,26 @@
                 const targetX = parseInt(el.dataset.x);
                 const targetY = parseInt(el.dataset.y);
 
+                // Snap logic (45px tolerance)
                 if (Math.abs(dropX - targetX) < 45 && Math.abs(dropY - targetY) < 45) {
                     el.className = 'puzzle-piece solved';
                     el.style.left = targetX + 'px';
                     el.style.top = targetY + 'px';
+                    el.style.position = 'absolute';
                     board.appendChild(el);
                     solvedCount++;
                     if (solvedCount === 9) {
                         nextBtn.style.display = 'block';
                         board.style.border = "none";
-                        // പസിൽ തീർന്നാൽ അടിയിലെ മെസ്സേജിന്റെ നിറം ഒന്നുകൂടി തെളിവാക്കാം
                         document.getElementById('tray-message').style.color = "var(--neon)";
                     }
                 } else {
-                    el.style.position = 'relative'; el.style.left = '0'; el.style.top = '0';
+                    // Reset styling to return to tray smoothly
+                    el.style.position = 'relative';
+                    el.style.left = '0';
+                    el.style.top = '0';
                     tray.appendChild(el);
                 }
-                window.removeEventListener('mouseup', stop);
-                window.removeEventListener('touchend', stop);
             };
 
             window.addEventListener('mousemove', move);
