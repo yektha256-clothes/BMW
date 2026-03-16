@@ -18,23 +18,38 @@
         #main-board {
             width: 300px; height: 300px; background: #1e293b; position: relative;
             border: 2px solid rgba(255,255,255,0.1);
-            overflow: hidden; /* പീസുകൾ പുറത്തേക്ക് പോകില്ല */
+            overflow: hidden;
         }
 
+        /* ട്രേയിൽ മെസ്സേജ് കാണിക്കാൻ position relative ആക്കി */
         #piece-tray {
-            width: 95%; min-height: 120px; margin-top: 25px; padding: 10px;
-            background: rgba(255,255,255,0.05); border-radius: 15px;
+            width: 95%; min-height: 140px; margin-top: 25px; padding: 10px;
+            background: rgba(255, 255, 255, 0.05); border-radius: 15px;
             display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center;
+            position: relative; 
+        }
+
+        /* ഇതിലാണ് നിനക്ക് ഇഷ്ടമുള്ള വരികൾ എഴുതേണ്ടത് */
+        #tray-message {
+            position: absolute;
+            width: 90%;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            line-height: 1.4;
+            pointer-events: none; /* ഇതിൽ തൊടുമ്പോൾ ഡ്രാഗിംഗ് തടസ്സപ്പെടില്ല */
+            z-index: 1;
+            font-style: italic;
         }
 
         .puzzle-piece {
             width: 100px; height: 100px;
             background-image: url('our-photo.jpg');
             background-size: 300px 300px;
-            border: none; /* വരകൾ ഒഴിവാക്കാൻ ബോർഡർ കളഞ്ഞു */
-            outline: none;
+            border: none;
             box-sizing: border-box;
-            cursor: grab; touch-action: none; position: relative; z-index: 10;
+            cursor: grab; touch-action: none; position: relative; 
+            z-index: 10; /* പീസുകൾ മെസ്സേജിന് മുകളിൽ വരാൻ */
         }
 
         .dragging {
@@ -47,25 +62,34 @@
 
         .solved {
             position: absolute !important;
-            border: none !important; /* ബോർഡറിൽ വെക്കുമ്പോൾ വരകൾ ഉണ്ടാകില്ല */
+            border: none !important;
             z-index: 1 !important;
             margin: 0 !important;
-            outline: none !important;
         }
 
         #next-btn {
             display: none; margin-top: 25px; padding: 15px 45px;
             background: var(--neon); color: #fff; border: none; border-radius: 50px;
             font-weight: bold; box-shadow: 0 5px 20px rgba(255,46,99,0.5);
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
 
-    <h2>anne kond pattum kunjappu ❤️</h2>
+    <h2>annekond pattum potta ❤️</h2>
+
     <div id="main-board"></div>
-    <div id="piece-tray"></div>
-    <button id="next-btn" onclick="location.href='page2.html'">ibde onn thott nokk! ➡️</button>
+
+    <div id="piece-tray">
+        <div id="tray-message">
+            You're not just the person I love <br>
+            you're the reason I believe in love... <br>
+            i w pottadyyy
+        </div>
+    </div>
+
+    <button id="next-btn" onclick="location.href='page2.html'">സമ്മാനം കാണൂ! ➡️</button>
 
     <script>
         const board = document.getElementById('main-board');
@@ -78,8 +102,6 @@
             const c = i % 3;
             const piece = document.createElement('div');
             piece.className = 'puzzle-piece';
-            
-            // ബാക്ക്ഗ്രൗണ്ട് കൃത്യമായി സെറ്റ് ചെയ്യുന്നു
             piece.style.backgroundPosition = `-${c * 100}px -${r * 100}px`;
             piece.dataset.x = c * 100;
             piece.dataset.y = r * 100;
@@ -89,9 +111,8 @@
             tray.appendChild(piece);
         }
 
-        // ഷഫിൾ ഫങ്ക്ഷൻ
         (function shuffle() {
-            let pieces = Array.from(tray.children);
+            let pieces = Array.from(tray.querySelectorAll('.puzzle-piece'));
             pieces.sort(() => Math.random() - 0.5);
             pieces.forEach(p => tray.appendChild(p));
         })();
@@ -136,8 +157,9 @@
                     solvedCount++;
                     if (solvedCount === 9) {
                         nextBtn.style.display = 'block';
-                        // എല്ലാം പൂർത്തിയാകുമ്പോൾ ബോർഡർ ബോക്സ് സ്റ്റൈൽ മാറ്റുക
                         board.style.border = "none";
+                        // പസിൽ തീർന്നാൽ അടിയിലെ മെസ്സേജിന്റെ നിറം ഒന്നുകൂടി തെളിവാക്കാം
+                        document.getElementById('tray-message').style.color = "var(--neon)";
                     }
                 } else {
                     el.style.position = 'relative'; el.style.left = '0'; el.style.top = '0';
