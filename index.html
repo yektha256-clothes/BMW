@@ -3,119 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Security Authentication - Portal Access</title>
+    <title>Secure Access | Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
         body {
-            background-color: #f4f7f6;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            /* പ്രൊഫഷണൽ ലുക്ക് നൽകുന്ന ഡാർക്ക് ഗ്രേഡിയന്റ് ബാക്ക്ഗ്രൗണ്ട് */
+            background: radial-gradient(circle at top right, #1e293b, #0f172a);
             margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            color: #f8fafc;
         }
 
+        /* ഗ്ലാസ് ഇഫക്റ്റ് ഉള്ള കണ്ടെയ്നർ */
         .auth-container {
-            background: #ffffff;
-            width: 85%;
-            max-width: 380px;
-            padding: 40px 25px;
-            border-radius: 4px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            border-top: 5px solid #2c3e50; /* A serious, dark color */
-        }
-
-        .auth-header {
-            text-align: left;
-            margin-bottom: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            width: 90%;
+            max-width: 400px;
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            text-align: center;
         }
 
         .auth-header h2 {
             margin: 0;
-            color: #333;
-            font-size: 22px;
+            font-size: 26px;
             font-weight: 600;
+            letter-spacing: -0.5px;
+            background: linear-gradient(to right, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .auth-header p {
-            margin: 5px 0 0;
-            color: #777;
-            font-size: 13px;
+            margin: 10px 0 30px;
+            color: #94a3b8;
+            font-size: 14px;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            text-align: left;
+            margin-bottom: 25px;
         }
 
         label {
             display: block;
             font-size: 12px;
-            font-weight: bold;
-            color: #555;
+            font-weight: 600;
+            color: #64748b;
             margin-bottom: 8px;
             text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         input[type="password"] {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            padding: 14px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
             font-size: 16px;
-            box-sizing: border-box;
-            background-color: #fafafa;
-        }
-
-        input:focus {
+            background: rgba(0, 0, 0, 0.2);
+            color: #fff;
+            transition: all 0.3s ease;
             outline: none;
-            border-color: #3498db;
-            background-color: #fff;
         }
 
+        input[type="password"]:focus {
+            border-color: #38bdf8;
+            background: rgba(0, 0, 0, 0.4);
+            box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.1);
+        }
+
+        /* ഹിന്റ് ബോക്സ് - കൂടുതൽ യൂസർ ഫ്രണ്ട്‌ലി ആക്കി */
         .note-box {
-            background-color: #f9f9f9;
-            border-left: 3px solid #3498db;
-            padding: 10px;
-            margin-bottom: 20px;
+            background: rgba(56, 189, 248, 0.1);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 25px;
+            border-left: 4px solid #38bdf8;
         }
 
         .note-box small {
-            color: #666;
-            font-size: 12px;
-            line-height: 1.4;
+            color: #bae6fd;
+            font-size: 13px;
             display: block;
         }
 
         .login-btn {
             width: 100%;
-            padding: 12px;
-            background-color: #2c3e50;
+            padding: 14px;
+            background: linear-gradient(135deg, #38bdf8, #4f46e5);
             color: white;
             border: none;
-            border-radius: 4px;
-            font-size: 15px;
+            border-radius: 8px;
+            font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: transform 0.2s, opacity 0.2s;
         }
 
         .login-btn:hover {
-            background-color: #1a252f;
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .login-btn:active {
+            transform: translateY(0px);
         }
 
         .footer-text {
-            text-align: center;
-            margin-top: 20px;
+            margin-top: 30px;
             font-size: 11px;
-            color: #999;
+            color: #475569;
+            letter-spacing: 0.5px;
         }
 
         #errorMsg {
-            color: #e74c3c;
+            color: #f87171;
             font-size: 12px;
-            margin-top: 10px;
+            margin-top: 12px;
             display: none;
-            text-align: center;
+            animation: shake 0.4s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
         }
     </style>
 </head>
@@ -123,37 +148,55 @@
 
 <div class="auth-container">
     <div class="auth-header">
-        <h2>System Login</h2>
-        <p>Enter credentials to access protected resources.</p>
+        <h2>Secure Gateway</h2>
+        <p>Verification required for entry</p>
     </div>
 
     <div class="note-box">
-        <small><strong>Note:</strong> ninte phone number last digits</small>
+        <small><strong>Hint:</strong> Your mobile number's last 6 digits</small>
     </div>
 
     <div class="form-group">
-        <label for="passInput">Access Key</label>
-        <input type="password" id="passInput" placeholder="••••••••">
-        <p id="errorMsg">Authentication failed. Please check your key.</p>
+        <label for="passInput">Authentication Key</label>
+        <input type="password" id="passInput" placeholder="Enter key here...">
+        <p id="errorMsg">Invalid key. Access denied.</p>
     </div>
 
     <button class="login-btn" onclick="checkPass()">AUTHORIZE ACCESS</button>
 
     <div class="footer-text">
-        &copy; 2026 SecureGate Protocol. All rights reserved.
+        ENCRYPTED END-TO-END CONNECTION<br>
+        &copy; 2026 SecureGate Protocol.
     </div>
 </div>
 
 <script>
     function checkPass() {
         const pass = document.getElementById('passInput').value;
+        const errorMsg = document.getElementById('errorMsg');
+        const inputField = document.getElementById('passInput');
+
         if (pass === "069256") {
             window.location.href = "puzzle.html"; 
         } else {
-            document.getElementById('errorMsg').style.display = 'block';
-            document.getElementById('passInput').style.borderColor = '#e74c3c';
+            errorMsg.style.display = 'block';
+            inputField.style.borderColor = '#f87171';
+            inputField.value = ''; // തെറ്റാണെങ്കിൽ പാസ്‌വേഡ് ക്ലിയർ ചെയ്യും
+            
+            // കുറച്ച് കഴിഞ്ഞ് എറർ മെസേജ് തനിയെ പോകുന്ന രീതി
+            setTimeout(() => {
+                errorMsg.style.display = 'none';
+                inputField.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+            }, 3000);
         }
     }
+
+    // Enter കീ അമർത്തിയാലും ലോഗിൻ ആകുന്ന ഫീച്ചർ
+    document.getElementById('passInput').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            checkPass();
+        }
+    });
 </script>
 
 </body>
