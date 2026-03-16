@@ -70,8 +70,6 @@
         const tray = document.getElementById('piece-tray');
         const nextBtn = document.getElementById('next-btn');
         let solvedCount = 0;
-        let lastTouchX = 0;
-        let lastTouchY = 0;
 
         for (let i = 0; i < 9; i++) {
             const r = Math.floor(i / 3), c = i % 3;
@@ -105,12 +103,9 @@
             el.classList.add('dragging');
 
             const move = (me) => {
-                const t = me.touches ? me.touches[0] : me;
-                // ലാസ്റ്റ് ലൊക്കേഷൻ സേവ് ചെയ്യുന്നു
-                lastTouchX = t.clientX;
-                lastTouchY = t.clientY;
-                el.style.left = (lastTouchX - offsetX) + 'px';
-                el.style.top = (lastTouchY - offsetY) + 'px';
+                const mt = me.touches ? me.touches[0] : me;
+                el.style.left = (mt.clientX - offsetX) + 'px';
+                el.style.top = (mt.clientY - offsetY) + 'px';
             };
 
             const stop = (se) => {
@@ -121,15 +116,17 @@
 
                 el.classList.remove('dragging');
 
+                // ഫോണിൽ സ്ക്രീനിൽ നിന്ന് വിരൽ എടുക്കുമ്പോൾ കിട്ടുന്ന കോർഡിനേറ്റ്സ് കൃത്യമായി എടുക്കുന്നു
+                const finalTouch = se.changedTouches ? se.changedTouches[0] : se;
                 const bRect = board.getBoundingClientRect();
                 
-                // മൊബൈലിൽ സ്ക്രീനിൽ നിന്ന് വിരൽ എടുത്താലും സേവ് ചെയ്ത ലൊക്കേഷൻ ഉപയോഗിക്കാം
-                const dropX = lastTouchX - bRect.left - offsetX;
-                const dropY = lastTouchY - bRect.top - offsetY;
+                const dropX = finalTouch.clientX - bRect.left - offsetX;
+                const dropY = finalTouch.clientY - bRect.top - offsetY;
 
                 const targetX = parseInt(el.dataset.x);
                 const targetY = parseInt(el.dataset.y);
 
+                // ടോളറൻസ് 50px
                 if (Math.abs(dropX - targetX) < 50 && Math.abs(dropY - targetY) < 50) {
                     el.className = 'puzzle-piece solved';
                     el.style.cssText = `position:absolute; left:${targetX}px; top:${targetY}px; background-position:-${targetX}px -${targetY}px; background-image:url('our-photo.jpg'); background-size:300px 300px;`;
@@ -141,11 +138,11 @@
                         document.getElementById('tray-message').style.color = "var(--neon)";
                     }
                 } else {
-                    const bgPos = el.style.backgroundPosition;
-                    el.removeAttribute('style'); 
-                    el.style.backgroundPosition = bgPos;
-                    el.style.backgroundImage = "url('our-photo.jpg')";
-                    el.style.backgroundSize = "300px 300px";
+                    // തെറ്റായ ഇടത്താണെങ്കിൽ പൂർണ്ണമായും റീസെറ്റ് ചെയ്യുന്നു
+                    el.style.position = 'relative';
+                    el.style.left = '0';
+                    el.style.top = '0';
+                    el.style.zIndex = '10';
                     tray.appendChild(el);
                 }
             };
